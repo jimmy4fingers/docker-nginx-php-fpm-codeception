@@ -1,0 +1,47 @@
+version: '2'
+services:
+  # The Application
+  app:
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /var/www
+    volumes:
+      - C:/Users/jamesle/Documents/projects/docker-gui/:/var/www
+
+  # The Web Server
+  web:
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes_from:
+      - app
+    ports:
+      - 8080:80
+
+  # testing suit
+  codecept:
+      image: codeception/codeception
+      depends_on:
+        - chrome
+        - firefox
+      volumes:
+          - './tests:/var/www/tests'
+          - './codeception.yml:/project/codeception.yml'
+  chrome:
+      image: 'selenium/standalone-chrome-debug:2.53.1'
+      ports:
+          - '5900'
+      # workaround for Docker for Mac, see https://github.com/SeleniumHQ/docker-selenium/issues/227#issuecomment-224865735
+      dns: 8.8.4.4
+      environment:
+        - no_proxy=localhost
+  firefox:
+      image: 'selenium/standalone-firefox-debug:2.53.1'
+      ports:
+          - '5900'
+      # workaround for Docker for Mac, see https://github.com/SeleniumHQ/docker-selenium/issues/227#issuecomment-224865735
+      dns: 8.8.4.4
+      environment:
+        - no_proxy=localhost

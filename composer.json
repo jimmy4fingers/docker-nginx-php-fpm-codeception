@@ -1,0 +1,6 @@
+{
+    "name": "jamesle/docker-gui",
+    "require": {
+        "codeception/codeception": "^2.4"
+    }
+}
