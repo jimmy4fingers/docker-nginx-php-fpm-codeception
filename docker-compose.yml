@@ -7,7 +7,7 @@ services:
       dockerfile: app.dockerfile
     working_dir: /var/www
     volumes:
-      - C:/Users/jamesle/Documents/projects/docker-gui/:/var/www
+      - your local path/:/var/www
 
   # The Web Server
   web:
